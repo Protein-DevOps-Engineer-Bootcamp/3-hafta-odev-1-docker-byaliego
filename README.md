@@ -1,67 +1,97 @@
 
+# 3.Week 1.Project
+</br>
 
-### 2.Hafta 1.Odev
----
+Protein DevOps Engineering Bootcamp project.
+</br>
+</br>
+# Table of contents [![](./docs/img/pin.svg)](#table-of-contents)
+</br>
+</br>
 
-## Table of contents[![](./docs/img/pin.svg)](#table-of-contents)
-
-1. [Aciklama](#aciklama)
-2. [Not](#not)
+1. [About](#about)
+2. [Scope](#scope)
+	- [first_script.sh](#1-firstscriptsh)
+	- [docker_dev_tools.sh](#2dockerdevtoolssh)
 3. [Usage](#usage)
+    - [Synopsis](#synopsis)
+    - [Examples](#examples)
+4. [Technologies](#technologies)
+5. [Note](#note)
+
+
+</br>
+</br>
 
 ---
 
-#### Aciklama: [![](./docs/img/pin.svg)](#aciklama)
+</br>
+</br>
 
-#### 1.Kisim
+## **About** [](#about) 📌
 
-Kullanici `app` dizinindeki uygulamayi docker ile calistirmak istemektedir. Ona yardimci olacak bir script yazin.
+This project includes two seperate automatization scripts. They are created for developers in our team. They are `first_script.sh` and `docker_dev_tools.sh`. These two scripts rely on some files in this directory. They are:
+- `Dockerfile` 
+- `docker-compose-mongo.yml` 
+- `docker-compose-mysql.yml` 
+- `.dockerignore` 
 
-1. Kullanici uygulamasini icin build edilen image icin `image name` ve `image tag` verebilmeli. Bu zorunlu 
-   bir parametre olmali, kullanici bu iki parametreden birini vermedi mi script `ERROR` verip sonlanmalidir.
-   (Not: Projenin Dockerfile'ini yazmayi unutmayiniz !!!)
+**PS:** *Please make sure these files are included in your project directory.*
 
-2. Kullanici kendi yerelinde bu docker image'i calistirabilmelidir, image'i calistirken `memory` ve `cpu` limitleri
-   tanimlayabilmeli. Herhangi bir limit belirtilmedigi surece default olarak hicbir limit belirtilmemelidir, yani 
-   limitsiz calismalidir.
-
-3. Kullaniciya iki tane image registery sunulmali `dockerhub` ve `gitlab image registery`, kullanici istedigi registery'e image pushlayabilmeli.
-
-4. Kullanicinin bazi veritabani ihtiyaci olabilir, kullaniya `mysql` ve `mongo` servislerini ayaga kaldirabilecegi bir secenek sunulmali.
-   (Not: bu template servisler icin `docker-compose` kullanin. Docker compose dosyasi icinde `memory` ve `cpu` limitlemesi yapiniz.)
-
-
-`Kullanici`: Bu scripti kullanan yazilimci, developer, gelistirici.
+</br>
+</br>
 
 ---
+</br>
+</br>
 
-##### ODEV ACIKLAMASI ####
 
-Yazilan script'in 3 tane modu olmali bu 3 mod birbirinden bagimsizdir.
+## **Scope** [](#scope) 📌
 
-**1. Mod:** *Image Build Modu*
+Here in this project, I have developed two scripts. To get more information read further.
 
-   Kullanici burada image build edebilmeli:
+
+### 1) **first_script.sh** [](#1-firstscriptsh) 
+This script helps user to run the application with the docker which is found in directory `app`. This script works with 4 multiple stages. 
+
+1. In this first stage, script will ask if you want to take a builf of the app. If you want, it will ask two mandatory parameters as `image name` and `image tag` in order to successfully build the image. If one of these mandatory parameters were not given, script will print an `ERROR` message and stop working. It relies on `Dockerfile`. Please make sure that you have this file and update it according to your needs.
+
+2. In this stage, script will ask if you want to run this image in your local. If you want it will ask if you want to specify two optional parameters `memory` ve `cpu` limits. It will help you to limit your container to avoid of depleteing your resources. If these parameters are not specified, container will work unlimited.
+
+
+3. In this stage, script will ask if you want to push your image. If your answer is yes, you can use either `dockerhub` or `gitlab image registery`. After you specify your choice, script will ask your login name and password before push. Then it will push image to the specified registry.
+
+4. In case of user need any database, in this stage script asks whether database needed or not. If user needs one, script expect an answer from user as `mysql` or `mongo`. According to selection, specified database image is being pulled and run. This stage rely on `docker-compose-mongo.yml` and `docker-compose-mysql.yml` files. In these docker compose files a `memory` and `cpu` limitation has been specified. According to user desire, they might be updated.
+
+
+</br>
+</br>
+
+### **2)docker_dev_tools.sh** [](#2dockerdevtoolssh)
+
+This script has 3 different modes and they all have different mandatory and optional flags that you can use. Further detail is provided below.
+
+1. **First Mode**: *Image Build Mode*
+
+   With this mode user can build an image. --registery parameter is an optional parameter but --image-name and --image-tag parameters are mandatory. If --registry parameter is provided, this image will be pushed to the specified registry.
 
 ```shell
    Example:
         docker_dev_tools.sh --mode build --image-name example_image --image-tag v1 --registery example_registery     
     
-   Not-1: "--registery" parametresi zorunlu olmamali cunku kullanici sadece image'i kendi yerelinde tutmak istiyor olabilir.  
-   Not-2: Kullanici registery vermisse image bu registery'e pushlanmali
    
-   Opsiyonel Parametreler:
+   Optional Parameters:
     - registery
    
-   Zorunlu Parametreler:
+   Mandatory Parameters:
    - mode
    - image-name
    - image-tag
 ```
 
-**2. Mod:** *Image Deploy Modu*
+2. **Second Mod:** *Image Deploy Mood*
 
-Kullanici burada build ettigi image'i calistirabilmelidir.
+User here can run the image that has been already built. If optional parameters are specified, they will be appended to command, unless image will be run without --container-name or --cpu and --memory limitation.
 
 ```shell
     Example: 
@@ -79,50 +109,91 @@ Kullanici burada build ettigi image'i calistirabilmelidir.
           
 ```
 
-**3. Mod:** *Template App Calistirma*
+3. **Third Mode:** *Template Mode*
 
-Bu mod icin kullanici kendisine sunulan template uygulamayi calistirabilmeli, sadece iki secenek sunulmali.
-Kullanici bu seceneklerde olmayan bir uygulama ismi girerse hata verilmelidir. Bu template uygulamalarin `docker-compose` 
-dosyalarini yazmalisiniz.
+With this mode, user may run some container among options. For this version only MySQL and MongoDB templates are specified. If any parameter but not `mysql`or `mongo` would be tried to passed by user, script will crash and print an error message. This mode rely on `docker-compose` files in the directory.
+
 
 ```shell
     Example: 
         docker_dev_tools.sh --mode tempate --application-name mysql
     
-    Zorunlu Parametreler:
+    Mandatory Parameters:
     - mode
     - application-name
     
-    Not: mysql farkli, mongo farkli docker-compose dosyalari icinde olmali.
 ```
-
-
-
+</br>
+</br>
 
 ---
 
-#### Not: [![](./docs/img/pin.svg)](#not)
+</br>
+</br>
 
-- Siz istediginiz her hangi bir dilde yazilmis farkli bir projeyi kullanabilirsiniz.
-- Zorunlu olan herhangi bir parametre verilmedigi zaman script `ERROR` verip durmalidir.
----
+### **Usage** [](#usage) 📌
+The script file should be added to .bashrc file in order to use the script ,as requested in project, as a bash command. `first_script.sh`has build-in instructions. Read further for `docker_dev_tools.sh`. 
 
+#### _Synopsis_ [](#synopsis)
+`docker_dev_tools.sh         [OPTION...]`
 
-#### Example Usage: [![](./docs/img/pin.svg)](#usage)
-
+#### _Examples_ [](#examples)
+    
 
 ```shell
-
-$ docker_dev_tools.sh
-
 Usage:
-    --mode              Select mode <build|deploy|template> 
-    --image-name        Docker image name
-    --image-tag         Docker image tag
-    --memory            Container memory limit
-    --cpu               Container cpu limit
-    --container-name    Container name
-    --registery         DocherHub or GitLab Image registery
-    --application-name  Run mysql or mongo server
+--mode              Select mode <build|deploy|template> 
+--image-name        Docker image name
+--image-tag         Docker image tag
+--memory            Container memory limit
+--cpu               Container cpu limit
+--container-name    Container name
+--registery         DocherHub or GitLab Image registery <dockerhub|gitlab>
+--application-name  Run mysql or mongo server <mysql|mongo>
+
+
+
+About:
+This script helps user to build, run a docker image or create a database. Under this scope, --modis the main parameter which helps user to select the mode and this is a mandatory parameter. Builoption automatically builds the docker image, deploy option automatically runs the docker image antemplate option creates a database container.
+
+The script is divided into three parts. The first part is the build part which requires mandator--image-name and --image-tag parameters. The second part is the deploy part which requires mandator--image-name and --image-tag parameters. The deploy part can take additional three optionaparameters as --container-name, --memory and --cpu. The third part is the template part whicrequires mandatory --application-name parameter.
+
+
+
+Examples:
+$ ./docker_dev_tools.sh --mode build --image-name example_image --image-tag v1 --registeexample_registe
+$ ./docker_dev_tools.sh --mode deploy --image-name example_image --image-tag v1 --container-naexample_container --memory "1g" --cpu "1.0"
+$ docker_dev_tools.sh --mode tempate --application-name mysql    
 ```
+
+</br>
+</br>
+
+
+---
+
+</br>
+</br>
+
+
+## **Technologies** [](#technologies) 📌
+
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white) ![GitLab](https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white)
+
+![DockerHub](https://img.shields.io/badge/Docker%20Hub-294356?style=flat&logo=docker&logoColor=white) ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=flat&logo=GNU%20Bash&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=flat&logo=docker&logoColor=white) ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black)
+
+</br>
+</br>
+
+
+---
+
+</br>
+</br>
+
+
+## **Note** [![](./docs/img/pin.svg)](#note) 📌
+
+- The project given here is written particularly for the python app in this directory. If you want to clone it and use in your own local, you should update your Dockerfile and docker-compose files.
+- Since it is version 1.0, it doesn't include a lot of options. You may extend the options according to your desires.
 
