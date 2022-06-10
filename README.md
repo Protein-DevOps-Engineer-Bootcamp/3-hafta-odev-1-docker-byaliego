@@ -11,8 +11,6 @@ Protein DevOps Engineering Bootcamp project.
 
 1. [About](#about)
 2. [Scope](#scope)
-	- [first_script.sh](#1-firstscriptsh)
-	- [docker_dev_tools.sh](#2dockerdevtoolssh)
 3. [Usage](#usage)
     - [Synopsis](#synopsis)
     - [Examples](#examples)
@@ -28,7 +26,9 @@ Protein DevOps Engineering Bootcamp project.
 </br>
 </br>
 
-## **About** [](#about)
+📌
+
+## **About** 
 
 This project includes two seperate automatization scripts. They are created for developers in our team. They are `first_script.sh` and `docker_dev_tools.sh`. These two scripts rely on some files in this directory. They are:
 - `Dockerfile` 
@@ -45,13 +45,15 @@ This project includes two seperate automatization scripts. They are created for 
 </br>
 </br>
 
+📌
 
-## **Scope** [](#scope) 📌
+## **Scope**  
 
 Here in this project, I have developed two scripts. To get more information read further.
 
 
-### 1) **first_script.sh** [](#1-firstscriptsh) 
+### **1) first_script.sh** 
+
 This script helps user to run the application with the docker which is found in directory `app`. This script works with 4 multiple stages. 
 
 1. In this first stage, script will ask if you want to take a builf of the app. If you want, it will ask two mandatory parameters as `image name` and `image tag` in order to successfully build the image. If one of these mandatory parameters were not given, script will print an `ERROR` message and stop working. It relies on `Dockerfile`. Please make sure that you have this file and update it according to your needs.
@@ -67,7 +69,7 @@ This script helps user to run the application with the docker which is found in 
 </br>
 </br>
 
-### **2)docker_dev_tools.sh** [](#2dockerdevtoolssh)
+### **2) docker_dev_tools.sh**
 
 This script has 3 different modes and they all have different mandatory and optional flags that you can use. Further detail is provided below.
 
@@ -89,7 +91,7 @@ This script has 3 different modes and they all have different mandatory and opti
    - image-tag
 ```
 
-2. **Second Mod:** *Image Deploy Mood*
+2. **Second Mode:** *Image Deploy Mood*
 
 User here can run the image that has been already built. If optional parameters are specified, they will be appended to command, unless image will be run without --container-name or --cpu and --memory limitation.
 
@@ -97,12 +99,12 @@ User here can run the image that has been already built. If optional parameters 
     Example: 
         docker_dev_tools.sh --mode deploy --image-name example_image --image-tag v1 --container-name example_container --memory "1g" --cpu "1.0"
     
-    Zorunlu Parametreler:
+    Mandatory Parameters:
     - mode
     - image-name
     - image tag
     
-    Opsiyonel Parametreler:
+    Optional Parameters:
     - container-name
     - memory
     - cpu 
@@ -131,13 +133,15 @@ With this mode, user may run some container among options. For this version only
 </br>
 </br>
 
-### **Usage** [](#usage) 📌
+📌
+
+### **Usage**  
 The script file should be added to .bashrc file in order to use the script ,as requested in project, as a bash command. `first_script.sh`has build-in instructions. Read further for `docker_dev_tools.sh`. 
 
-#### _Synopsis_ [](#synopsis)
+#### _Synopsis_ 
 `docker_dev_tools.sh         [OPTION...]`
 
-#### _Examples_ [](#examples)
+#### _Examples_ 
     
 
 ```shell
@@ -175,8 +179,9 @@ $ docker_dev_tools.sh --mode tempate --application-name mysql
 </br>
 </br>
 
+📌
 
-## **Technologies** [](#technologies) 📌
+## **Technologies** 
 
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white) ![GitLab](https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white)
 
@@ -191,8 +196,9 @@ $ docker_dev_tools.sh --mode tempate --application-name mysql
 </br>
 </br>
 
+📌
 
-## **Note** [![](./docs/img/pin.svg)](#note) 📌
+## **Note** 
 
 - The project given here is written particularly for the python app in this directory. If you want to clone it and use in your own local, you should update your Dockerfile and docker-compose files.
 - Since it is version 1.0, it doesn't include a lot of options. You may extend the options according to your desires.
