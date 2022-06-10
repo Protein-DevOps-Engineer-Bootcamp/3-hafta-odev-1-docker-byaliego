@@ -28,7 +28,7 @@ Protein DevOps Engineering Bootcamp project.
 </br>
 </br>
 
-## **About** [](#about) 
+## **About** [](#about) 📌
 
 This project includes two seperate automatization scripts. They are created for developers in our team. They are `first_script.sh` and `docker_dev_tools.sh`. These two scripts rely on some files in this directory. They are:
 - `Dockerfile` 
